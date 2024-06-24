@@ -11,3 +11,7 @@ repos:
       - id: check-yaml
         stages: [commit]
         args: ["--allow-multiple-documents"]
+  - repo: https://github.com/Calinou/pre-commit-luacheck
+    rev: v1.0.0
+    hooks:
+      - id: luacheck
