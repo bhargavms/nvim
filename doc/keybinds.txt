@@ -1,0 +1,57 @@
+*keybinds.txt*    Displays all of my custom keybinds
+==============================================================================
+Keybinds Help                          *keybinds*
+
+Introduction
+==============================================================================
+This help file contains all the custom keybindings defined in this Neovim
+configuration.
+
+Keybindings
+==============================================================================
+
+<leader>b            buffer new
+<leader>ee           
+<leader>/            comment toggle
+<leader>/            comment toggle
+<C-b>                move beginning of line
+<C-e>                move end of line
+<C-h>                move left
+<C-l>                move right
+<C-j>                move down
+<C-k>                move up
+<Esc>                general clear highlights
+<C-s>                file save
+<leader>n            toggle line number
+<leader>rn           toggle relative number
+<leader>fm           format files
+<C-n>                nvimtree toggle window
+<leader>e            nvimtree focus window
+<leader>wK           whichkey all keymaps
+<leader>wk           whichkey query lookup
+<leader>ds           lsp diagnostic loclist
+<leader>cc           blankline jump to current context
+<leader>fw           telescope live grep
+<leader>fb           telescope find buffers
+<leader>fh           telescope help page
+<leader>ma           telescope find marks
+<leader>fo           telescope find oldfiles
+<leader>fz           telescope find in current buffer
+<leader>cm           telescope git commits
+<leader>gt           telescope git status
+<leader>pt           telescope pick hidden term
+<leader>th           telescope nvchad themes
+<leader>ff           telescope find files
+<leader>fa           telescope find all files
+<C-x>                terminal escape terminal mode
+<leader>h            terminal new horizontal term
+<leader>v            terminal new vertical window
+<A-v>                terminal toggleable vertical term
+<A-h>                terminal new horizontal term
+<A-i>                terminal toggle floating term
+<C-h>                switch window left
+<C-l>                switch window right
+<C-j>                switch window down
+<C-k>                switch window up
+
+vim:tw=78:ts=8:ft=help:norl:
