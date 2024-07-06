@@ -11,7 +11,11 @@ repos:
       - id: check-yaml
         stages: [commit]
         args: ["--allow-multiple-documents"]
-  - repo: https://github.com/Calinou/pre-commit-luacheck
-    rev: v1.0.0
+  - repo: local
     hooks:
-      - id: luacheck
+      - id: Luacheck
+        name: Luacheck
+        description: Lints Lua files using Luacheck.
+        entry: luacheck --globals vim -- .
+        language: system
+        types: [file, lua]

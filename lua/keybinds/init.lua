@@ -11,7 +11,7 @@ local function set_keybind(mode, lhs, rhs, opts)
     if not desc then
 	error("Description (desc) is required")
     end
-    vim.keymap.set(mode, lhs, rhs, opts)  
+    vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 vim.g.set_custom_binds = set_keybind
@@ -33,9 +33,7 @@ load_keybinds()
 local M = {}
 
 function M.generate_help()
-    local keybinds_path = vim.fn.stdpath('config') .. '/lua/keybinds/'
     local help_file_path = vim.fn.stdpath('config') .. '/doc/keybinds.txt'
-    
     local help_lines = {
         '*keybinds.txt*    Displays all of my custom keybinds',
         '==============================================================================',
@@ -76,10 +74,9 @@ local function load_autocommands()
         group = group,
         pattern = vim.fn.stdpath('config') .. '/lua/keybinds/*.lua',
         callback = function()
-	    M.generate_help()    
+	    M.generate_help()
         end,
     })
 end
 
 load_autocommands()
-
