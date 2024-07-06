@@ -76,7 +76,7 @@ local function load_autocommands()
         group = group,
         pattern = vim.fn.stdpath('config') .. '/lua/keybinds/*.lua',
         callback = function()
-	    M.generate_help()	    
+	    M.generate_help()    
         end,
     })
 end

@@ -1,6 +1,6 @@
 *keybinds.txt*    Displays all of my custom keybinds
 ==============================================================================
-Keybinds Help                          *keybinds*
+Keybinds Help                          *My Custom Keybinds*
 
 Introduction
 ==============================================================================
