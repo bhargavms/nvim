@@ -1,4 +1,3 @@
-
 local map = vim.g.set_custom_binds
 
 -- telescope
@@ -19,5 +18,3 @@ map(
   "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
   { desc = "telescope find all files" }
 )
-
-

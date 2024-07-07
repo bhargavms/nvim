@@ -1,4 +1,3 @@
-
 local map = vim.g.set_custom_binds
 -- blankline
 map("n", "<leader>cc", function()
@@ -15,4 +14,3 @@ map("n", "<leader>cc", function()
     end
   end
 end, { desc = "blankline jump to current context" })
-

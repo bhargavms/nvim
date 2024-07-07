@@ -17,12 +17,12 @@ end
 vim.g.set_custom_binds = set_keybind
 
 local function load_keybinds()
-  local keybinds_path = vim.fn.stdpath('config') .. '/lua/keybinds/'
+  local keybinds_path = vim.fn.stdpath('config') .. '/lua/mogra/keybinds/'
   local keybind_files = vim.fn.readdir(keybinds_path, [[v:val =~ '\.lua$']])
 
   for _, file in ipairs(keybind_files) do
     if file ~= 'init.lua' then
-      local keybind_module = 'keybinds.' .. file:gsub('%.lua$', '')
+      local keybind_module = 'mogra.keybinds.' .. file:gsub('%.lua$', '')
       require(keybind_module)
     end
   end

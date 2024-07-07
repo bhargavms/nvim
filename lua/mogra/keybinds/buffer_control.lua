@@ -16,5 +16,3 @@ map("n", "<leader>ee", "<cmd>buffers<CR>", { desc = "" })
 --map("n", "<leader>x", function()
  -- require("nvchad.tabufline").close_buffer()
 -- end, { desc = "buffer close" })
-
-

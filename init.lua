@@ -1,5 +1,4 @@
-require("initialization.lazy")
-
+require("mogra.initialization.lazy")
 vim.g.mapleader = ' '
-
-require("keybinds")
+require("mogra.autocmds")
+require("mogra.keybinds")

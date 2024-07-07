@@ -11,7 +11,8 @@ Keybindings
 ==============================================================================
 
 <leader>b            buffer new
-<leader>ee           
+<leader>ee
+<leader>fm           format files
 <leader>/            comment toggle
 <leader>/            comment toggle
 <C-b>                move beginning of line

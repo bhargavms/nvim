@@ -1,4 +1,7 @@
-local function load_lsp_client_bindings(map, bufnr)
+local M = {}
+local map = vim.keymap.set
+-- export on_attach & capabilities
+M.on_attach = function(_, bufnr)
 	local function opts(desc)
 		return { buffer = bufnr, desc = "LSP " .. desc }
 	end
@@ -18,13 +21,7 @@ local function load_lsp_client_bindings(map, bufnr)
 
 	map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
 	map("n", "gr", vim.lsp.buf.references, opts "Show references")
-end
 
-local M = {}
-local map = vim.keymap.set
--- export on_attach & capabilities
-M.on_attach = function(_, bufnr)
-  load_lsp_client_bindings(map, bufnr)
 end
 
 -- disable semanticTokens
@@ -55,7 +52,7 @@ M.capabilities.textDocument.completion.completionItem = {
 }
 
 M.defaults = function()
-  require("ui.lsp")
+  require("mogra.ui.lsp")
   require("lspconfig").lua_ls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
