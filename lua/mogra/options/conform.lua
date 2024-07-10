@@ -7,5 +7,6 @@ return {
     yaml = { "yamlfix" },
     bash = { "beautysh" },
     json = { { "prettierd", "prettier" } },
+    hcl = { "terraform_fmt" },
   },
 }
