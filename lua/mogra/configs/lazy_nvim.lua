@@ -1,6 +1,7 @@
 return {
-  defaults = { lazy = true },
-
+  install = {
+    colorscheme = { "habamax" },
+  },
   ui = {
     icons = {
       ft = "",
