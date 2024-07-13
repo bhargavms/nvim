@@ -75,8 +75,16 @@ M.defaults = function(_, _)
       },
     },
   }
-  require("lspconfig").terraformls.setup {}
-  require("lspconfig").sqlls.setup {}
+  require("lspconfig").terraformls.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    on_init = M.on_init,
+  }
+  require("lspconfig").sqlls.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    on_init = M.on_init,
+  }
 end
 
 return M.defaults
