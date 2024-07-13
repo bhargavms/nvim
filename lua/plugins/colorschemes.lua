@@ -1,11 +1,17 @@
 return {
+  -- {
+  --   "ntk148v/habamax.nvim",
+  --   dependencies = { "rktjmp/lush.nvim" },
+  --   config = function()
+  --     vim.cmd.colorscheme "habamax.nvim"
+  --   end,
+  -- },
   {
-    "ntk148v/habamax.nvim",
+    "luisiacc/gruvbox-baby",
     lazy = false,
     priority = 1000,
-    dependencies = { "rktjmp/lush.nvim" },
     config = function()
-      vim.cmd.colorscheme "habamax.nvim"
+      vim.cmd.colorscheme "gruvbox-baby"
     end,
   },
 }

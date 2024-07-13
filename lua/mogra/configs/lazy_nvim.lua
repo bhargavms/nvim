@@ -1,6 +1,6 @@
 return {
   install = {
-    colorscheme = { "habamax" },
+    colorscheme = { "gruvbox-baby" },
   },
   ui = {
     icons = {
