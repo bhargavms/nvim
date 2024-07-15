@@ -85,6 +85,16 @@ M.defaults = function(_, _)
     capabilities = M.capabilities,
     on_init = M.on_init,
   }
+  require("lspconfig").jdtls.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    on_init = M.on_init,
+  }
+  require("lspconfig").gopls.setup {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    on_init = M.on_init,
+  }
 end
 
 return M.defaults

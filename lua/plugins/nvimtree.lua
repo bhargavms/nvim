@@ -8,6 +8,5 @@ return {
     opts = function()
       return require "mogra.options.nvimtree"
     end,
-    config = require "mogra.options.nvimtree",
   },
 }
