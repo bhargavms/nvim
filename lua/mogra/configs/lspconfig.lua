@@ -12,7 +12,7 @@ M.on_attach = function(_, bufnr)
   map("n", "<leader>sh", vim.lsp.buf.signature_help, opts "Show signature help")
   map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
   map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
-
+  map("n", "K", vim.lsp.buf.hover, opts "Lsp Hover")
   map("n", "<leader>wl", function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, opts "List workspace folders")
@@ -52,7 +52,8 @@ M.capabilities.textDocument.completion.completionItem = {
 
 M.defaults = function(_, _)
   require "mogra.ui.lsp"
-  require("lspconfig").lua_ls.setup {
+  local lspconfig = require "lspconfig"
+  lspconfig.lua_ls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
@@ -75,25 +76,23 @@ M.defaults = function(_, _)
       },
     },
   }
-  require("lspconfig").terraformls.setup {
+  lspconfig.terraformls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
   }
-  require("lspconfig").sqlls.setup {
+  lspconfig.sqlls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
   }
-  require("lspconfig").jdtls.setup {
+  lspconfig.jdtls.setup {
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
   }
-  require("lspconfig").gopls.setup {
-    on_attach = M.on_attach,
-    capabilities = M.capabilities,
-    on_init = M.on_init,
+  lspconfig.kotlin_language_server.setup {
+    cmd = { "kls" },
   }
 end
 
