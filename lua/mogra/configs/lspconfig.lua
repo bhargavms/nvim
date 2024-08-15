@@ -92,7 +92,10 @@ M.defaults = function(_, _)
     on_init = M.on_init,
   }
   lspconfig.kotlin_language_server.setup {
-    cmd = { "kls" },
+    cmd = vim.lsp.rpc.connect("127.0.0.1", 49100),
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    on_init = M.on_init,
   }
 end
 
