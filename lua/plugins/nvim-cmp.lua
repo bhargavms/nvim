@@ -9,7 +9,7 @@ return {
         "L3MON4D3/LuaSnip",
         dependencies = "rafamadriz/friendly-snippets",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
-        config = require "mogra.configs.luasnip"
+        config = require "mogra.configs.luasnip",
       },
 
       -- autopairing of (){}[] etc
@@ -37,7 +37,8 @@ return {
         "hrsh7th/cmp-path",
       },
     },
-    opts = require "mogra.options.cmp",
-    config = require "mogra.configs.cmp"
+    opts = function()
+      return require "mogra.configs.cmp"
+    end,
   },
 }
