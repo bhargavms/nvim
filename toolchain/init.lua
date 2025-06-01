@@ -30,6 +30,24 @@ M.config = {
   },
 }
 
+M.check = function()
+  vim.health.start "mogra-toolchain"
+  local tools = M.state.tools or {}
+
+  if #tools == 0 then
+    vim.health.warn "No tools registered in mogra-toolchain."
+    return
+  end
+
+  for _, tool in ipairs(tools) do
+    if tool.is_installed and tool.is_installed() then
+      vim.health.ok(tool.name .. " is installed")
+    else
+      vim.health.error(tool.name .. " is NOT installed")
+    end
+  end
+end
+
 -- Register a tool
 function M.register(tool)
   if not tool or type(tool) ~= "table" then
@@ -39,10 +57,7 @@ function M.register(tool)
 
   -- Validate required tool properties
   if not tool.name or not tool.description or not tool.install or not tool.update or not tool.is_installed then
-    vim.notify(
-      "Tool object missing required properties (name, description, install, update, is_installed)",
-      vim.log.levels.ERROR
-    )
+    vim.notify("Tool object missing required properties (name, description, install, update, is_installed)", vim.log.levels.ERROR)
     return
   end
 
