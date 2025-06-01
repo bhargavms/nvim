@@ -1,3 +1,4 @@
+require("mogra.initialization.envsetup")
 require("mogra.initialization.lazy")
 require("mogra.initialization.defaults")
 require("mogra.autocmds")
