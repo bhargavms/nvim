@@ -89,10 +89,7 @@ end
 -- Get supported system combinations
 function M.get_supported_combinations()
   return {
-    ["x86_64-apple-darwin"] = true,
     ["aarch64-apple-darwin"] = true,
-    ["x86_64-unknown-linux-gnu"] = true,
-    ["aarch64-unknown-linux-gnu"] = true,
   }
 end
 

@@ -61,17 +61,10 @@ function GitHubRelease:validate()
   return true
 end
 
--- -- System Architecture model
--- ---@class SystemArchitecture
--- ---@field arch string
--- ---@field os_name string
--- ---@field combination string
--- local SystemArchitecture = {}
-
 -- Create a new SystemArchitecture instance
 ---@param arch string
 ---@param os_name string
----@return SystemArchitecture
+---@return table
 function M.new_system_architecture(arch, os_name)
   return {
     arch = arch,
