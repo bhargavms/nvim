@@ -51,21 +51,6 @@ A modern, modular, and maintainable Neovim configuration built with Lua. This co
 └── doc/                   # Documentation
 ```
 
-## 🛠️ Custom Plugins
-
-### Mogra Tools
-
-A Mason-like interface for managing development tools. Features:
-- Interactive UI for tool management
-- Support for Go, NPM, and LuaRocks
-- Easy installation and updates
-- User-level installations (no sudo required)
-
-Commands:
-- `:MograTools` - Open the tools UI
-- `:MograInstallAll` - Install all tools
-- `:MograUpdateAll` - Update all tools
-
 ## 🔧 Development Tools
 
 The configuration includes support for:
@@ -73,6 +58,7 @@ The configuration includes support for:
 - Node.js and npm
 - Lua and LuaRocks
 - Language servers (via Mason)
+- kotlin-lsp and other tools (via [Toolchain](https://github.com/bhargavms/mogra-toolchain.nvim) )
 
 ## ⌨️ Key Mappings
 
@@ -97,10 +83,3 @@ The configuration includes support for:
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- [Neovim](https://neovim.io/) - The editor
-- [lazy.nvim](https://github.com/folke/lazy.nvim) - Plugin manager
-- [Mason](https://github.com/williamboman/mason.nvim) - Inspiration for mogra-tools
-- [NvChad](https://github.com/NvChad/NvChad) - Inspiration for UI and configuration structure
