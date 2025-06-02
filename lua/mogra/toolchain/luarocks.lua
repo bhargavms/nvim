@@ -52,7 +52,7 @@ function M.install()
   }
 
   for _, var in ipairs(env_vars) do
-    os.execute("echo '" .. var .. "' >> " .. shell_rc)
+    helpers.append_line_if_missing(shell_rc, var)
   end
 
   -- Clean up
