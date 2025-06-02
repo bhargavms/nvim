@@ -22,12 +22,7 @@ M.on_attach = function(_, bufnr)
   map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
   map("n", "gr", vim.lsp.buf.references, opts "Show references")
   map("n", "<leader>er", vim.diagnostic.open_float, opts "Show diagnostic hover window")
-  map(
-    "n",
-    "<leader>jd",
-    "<cmd>belowright split | lua vim.lsp.buf.definition()<CR>",
-    opts "Open definition in split window"
-  )
+  map("n", "<leader>jd", "<cmd>belowright split | lua vim.lsp.buf.definition()<CR>", opts "Open definition in split window")
 end
 
 -- disable semanticTokens
@@ -99,11 +94,22 @@ M.defaults = function(_, _)
     on_init = M.on_init,
   }
   lspconfig.kotlin_language_server.setup {
-    cmd = vim.lsp.rpc.connect("127.0.0.1", 49100),
+    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 49100),
+    cmd = { "kotlin-ls", "--stdio" },
     on_attach = M.on_attach,
     capabilities = M.capabilities,
     on_init = M.on_init,
+    root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
   }
+  -- lspconfig.kotlin_lsp.setup {
+  --   cmd = { "kotlin-ls", "--stdio" },
+  --   single_file_support = true,
+  --   filetypes = { "kotlin" },
+  --   root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
+  --   on_attach = M.on_attach,
+  --   capabilities = M.capabilities,
+  --   on_init = M.on_init,
+  -- }
   -- for fold
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.foldingRange = {

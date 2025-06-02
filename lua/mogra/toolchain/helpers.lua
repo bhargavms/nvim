@@ -105,4 +105,41 @@ function M.validate_system_combination(arch, os_name)
   return arch, os_name
 end
 
+-- Read a tool version from toolchain-versions.json in the config directory
+function M.read_toolchain_version(tool)
+  local file = io.open(vim.fn.stdpath("config") .. "/toolchain-versions.json", "r")
+  if not file then
+    error("Could not open toolchain-versions.json for reading version for " .. tool)
+  end
+  local content = file:read("*a")
+  file:close()
+  local ok, versions = pcall(vim.fn.json_decode, content)
+  if not ok or not versions or not versions[tool] then
+    error("Could not parse version for " .. tool .. " from toolchain-versions.json")
+  end
+  return versions[tool]
+end
+
+-- Append a line to a file only if it does not already exist
+function M.append_line_if_missing(filepath, line)
+  local file = io.open(filepath, "r")
+  if file then
+    for l in file:lines() do
+      if l == line then
+        file:close()
+        return -- Line already exists
+      end
+    end
+    file:close()
+  end
+  -- Append the line
+  file = io.open(filepath, "a")
+  if file then
+    file:write(line .. "\n")
+    file:close()
+  else
+    error("Could not open " .. filepath .. " for appending")
+  end
+end
+
 return M
