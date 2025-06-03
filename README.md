@@ -1,4 +1,4 @@
-# Mogra Neovim Configuration
+# Neovim Configuration
 
 A modern, modular, and maintainable Neovim configuration built with Lua. This configuration is designed to be fast, feature-rich, and easy to extend.
 
@@ -20,7 +20,7 @@ A modern, modular, and maintainable Neovim configuration built with Lua. This co
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/bhargav/mogra-nvim ~/.config/nvim
+   git clone https://github.com/bhargavms/nvim ~/.config/nvim
    ```
 
 2. Start Neovim:
