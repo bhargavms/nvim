@@ -73,6 +73,9 @@ function M.get()
     is_installed = kotlin_lsp.is_installed,
   })
 
+  local brew_tool = require "mogra_toolchain.plugins.homebrew"
+  table.insert(tools, brew_tool.tool("cmake"):description("cmake tool for building c++ code"):build())
+
   return tools
 end
 

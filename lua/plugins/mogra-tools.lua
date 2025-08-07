@@ -1,7 +1,7 @@
 return {
   {
-    "bhargavms/mogra-toolchain.nvim",
-    -- dir = "~/projects/mogra-toolchain.nvim",
+    -- "bhargavms/mogra-toolchain.nvim",
+    dir = "~/mogra-toolchain.nvim",
     name = "mogra-toolchain",
     lazy = false,
     opts = {
@@ -11,9 +11,10 @@ return {
         height = 20,
         border = "rounded",
       },
-      tools = require("mogra.toolchain").get(),
+      tools = {},
     },
     config = function(_, opts)
+      opts.tools = require("mogra.toolchain").get()
       require("mogra_toolchain").setup(opts)
     end,
   },
