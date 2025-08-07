@@ -14,7 +14,7 @@ return {
       tools = require("mogra.toolchain").get(),
     },
     config = function(_, opts)
-      require("mogra-toolchain").setup(opts)
+      require("mogra_toolchain").setup(opts)
     end,
   },
 }
