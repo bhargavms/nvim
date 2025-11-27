@@ -32,7 +32,7 @@ function M.install()
   os.execute("chmod +x " .. install_dir .. "/scripts/kotlin-lsp.sh")
   os.execute("ln -s " .. install_dir .. "/scripts/kotlin-lsp.sh " .. symlink_path)
   os.execute("chmod +x " .. symlink_path)
-  vim.notify("Kotlin LSP installed!", vim.log.levels.SUCCESS)
+  vim.notify("Kotlin LSP installed!", vim.log.levels.INFO)
 end
 
 function M.update()
@@ -57,7 +57,7 @@ function M.update()
 
   -- Reinstall with latest version
   M.install()
-  vim.notify("Kotlin LSP updated to latest version!", vim.log.levels.SUCCESS)
+  vim.notify("Kotlin LSP updated to latest version!", vim.log.levels.INFO)
 end
 
 return M
