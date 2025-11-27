@@ -1,80 +1,82 @@
 local M = {}
 
+-- Helper function to register a tool module
+local function register_tool(tools, module_path)
+  local ok, tool = pcall(require, module_path)
+  if ok and tool then
+    table.insert(tools, {
+      name = tool.name,
+      description = tool.description,
+      install = tool.install,
+      update = tool.update,
+      is_installed = tool.is_installed,
+    })
+  end
+end
+
 function M.get()
   local tools = {}
 
-  -- Register Go tool
-  local go = require "mogra.toolchain.go"
-  table.insert(tools, {
-    name = go.name,
-    description = go.description,
-    install = go.install,
-    update = go.update,
-    is_installed = go.is_installed,
-  })
+  -- Register Go tool (the language itself)
+  register_tool(tools, "mogra.toolchain.go")
 
   -- Register NPM tool
-  local npm = require "mogra.toolchain.npm"
-  table.insert(tools, {
-    name = npm.name,
-    description = npm.description,
-    install = npm.install,
-    update = npm.update,
-    is_installed = npm.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.npm")
 
   -- Register LuaRocks tool
-  local luarocks = require "mogra.toolchain.luarocks"
-  table.insert(tools, {
-    name = luarocks.name,
-    description = luarocks.description,
-    install = luarocks.install,
-    update = luarocks.update,
-    is_installed = luarocks.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.luarocks")
 
   -- Register Ripgrep tool
-  local ripgrep = require "mogra.toolchain.ripgrep"
-  table.insert(tools, {
-    name = ripgrep.name,
-    description = ripgrep.description,
-    install = ripgrep.install,
-    update = ripgrep.update,
-    is_installed = ripgrep.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.ripgrep")
 
   -- Register Java tool
-  local java = require "mogra.toolchain.java"
-  table.insert(tools, {
-    name = java.name,
-    description = java.description,
-    install = java.install,
-    update = java.update,
-    is_installed = java.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.java")
 
   -- Register Android SDK tool
-  local android_sdk = require "mogra.toolchain.android_sdk"
-  table.insert(tools, {
-    name = android_sdk.name,
-    description = android_sdk.description,
-    install = android_sdk.install,
-    update = android_sdk.update,
-    is_installed = android_sdk.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.android_sdk")
 
   -- Register Kotlin LSP tool
-  local kotlin_lsp = require "mogra.toolchain.kotlin-lsp"
-  table.insert(tools, {
-    name = kotlin_lsp.name,
-    description = kotlin_lsp.description,
-    install = kotlin_lsp.install,
-    update = kotlin_lsp.update,
-    is_installed = kotlin_lsp.is_installed,
-  })
+  register_tool(tools, "mogra.toolchain.kotlin-lsp")
 
-  local brew_tool = require "mogra_toolchain.plugins.homebrew"
-  table.insert(tools, brew_tool.tool("cmake"):description("cmake tool for building c++ code"):build())
+  -- pip-based tools
+  register_tool(tools, "mogra.toolchain.tools.beautysh")
+  register_tool(tools, "mogra.toolchain.tools.yamlfix")
+
+  -- npm-based tools
+  register_tool(tools, "mogra.toolchain.tools.prettier")
+  register_tool(tools, "mogra.toolchain.tools.prettierd")
+
+  -- Go tools (individual)
+  register_tool(tools, "mogra.toolchain.tools.go.gopls")
+  register_tool(tools, "mogra.toolchain.tools.go.dlv")
+  register_tool(tools, "mogra.toolchain.tools.go.golangci-lint")
+  register_tool(tools, "mogra.toolchain.tools.go.gonew")
+  register_tool(tools, "mogra.toolchain.tools.go.go-enum")
+  register_tool(tools, "mogra.toolchain.tools.go.fillswitch")
+  register_tool(tools, "mogra.toolchain.tools.go.golines")
+  register_tool(tools, "mogra.toolchain.tools.go.goimports")
+  register_tool(tools, "mogra.toolchain.tools.go.gofumpt")
+  register_tool(tools, "mogra.toolchain.tools.go.json-to-struct")
+  register_tool(tools, "mogra.toolchain.tools.go.richgo")
+  register_tool(tools, "mogra.toolchain.tools.go.ginkgo")
+  register_tool(tools, "mogra.toolchain.tools.go.impl")
+  register_tool(tools, "mogra.toolchain.tools.go.govulncheck")
+  register_tool(tools, "mogra.toolchain.tools.go.gotestsum")
+  register_tool(tools, "mogra.toolchain.tools.go.callgraph")
+  register_tool(tools, "mogra.toolchain.tools.go.gomvp")
+  register_tool(tools, "mogra.toolchain.tools.go.mockgen")
+  register_tool(tools, "mogra.toolchain.tools.go.iferr")
+  register_tool(tools, "mogra.toolchain.tools.go.gojsonstruct")
+  register_tool(tools, "mogra.toolchain.tools.go.gotests")
+  register_tool(tools, "mogra.toolchain.tools.go.gomodifytags")
+
+  -- Homebrew-based tools (using plugin's builder)
+  local ok, brew_tool = pcall(require, "mogra_toolchain.plugins.homebrew")
+  if ok then
+    table.insert(tools, brew_tool.tool("cmake"):description("cmake tool for building c++ code"):build())
+    table.insert(tools, brew_tool.tool("clang-format"):description("C/C++/Objective-C code formatter"):build())
+    table.insert(tools, brew_tool.tool("terraform"):description("Terraform CLI (provides terraform_fmt)"):build())
+  end
 
   return tools
 end
