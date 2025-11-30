@@ -1,9 +1,22 @@
 local masonames = require "mogra.ui.mason.names"
+
+-- LSP servers that should be installed via Mason
+-- This list should match the servers enabled in mogra.configs.lspconfig
+local lsp_servers = {
+  "lua_ls",
+  "terraformls",
+  "sqlls",
+  "jdtls",
+  "kotlin_language_server",
+  "graphql",
+  "yamlls",
+}
+
 local get_pkgs = function(data)
   local tools = data or {}
 
-  local lsps = require("lspconfig.util").available_servers()
-  tools = vim.list_extend(tools, lsps)
+  -- Add LSP servers
+  tools = vim.list_extend(tools, lsp_servers)
 
   local conform_exists, conform = pcall(require, "conform")
 
@@ -54,6 +67,7 @@ local install_all = function(data)
     end
   end)
 end
+
 local function init(_, opts)
   require("mason").setup(opts)
   vim.api.nvim_create_user_command("MasonInstallAll", function()

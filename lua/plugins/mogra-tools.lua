@@ -3,19 +3,10 @@ return {
     -- "bhargavms/mogra-toolchain.nvim",
     dir = "~/mogra-toolchain.nvim",
     name = "mogra-toolchain",
+    dependencies = { "MunifTanjim/nui.nvim" },
     lazy = false,
     opts = {
-      ui = {
-        title = "Toolchain",
-        width = 60,
-        height = 20,
-        border = "rounded",
-      },
-      tools = {},
+      tools = require("mogra.toolchain").get(),
     },
-    config = function(_, opts)
-      opts.tools = require("mogra.toolchain").get()
-      require("mogra_toolchain").setup(opts)
-    end,
   },
 }

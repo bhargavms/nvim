@@ -1,16 +1,14 @@
 local M = {}
 
 -- Helper function to register a tool module
+-- Tools can use either the old API (install/update functions) or
+-- the new API (install_cmd/update_cmd strings or get_install_cmd/get_update_cmd functions)
 local function register_tool(tools, module_path)
   local ok, tool = pcall(require, module_path)
   if ok and tool then
-    table.insert(tools, {
-      name = tool.name,
-      description = tool.description,
-      install = tool.install,
-      update = tool.update,
-      is_installed = tool.is_installed,
-    })
+    table.insert(tools, tool)
+  else
+    vim.notify("Failed to load tool: " .. module_path .. " - " .. tostring(tool), vim.log.levels.WARN)
   end
 end
 
@@ -37,6 +35,9 @@ function M.get()
 
   -- Register Kotlin LSP tool
   register_tool(tools, "mogra.toolchain.kotlin-lsp")
+
+  -- Test tools
+  register_tool(tools, "mogra.toolchain.tools.dummy-fail")
 
   -- pip-based tools
   register_tool(tools, "mogra.toolchain.tools.beautysh")
