@@ -99,6 +99,7 @@ function M.get()
   table.insert(tools, brew_tool("clang-format", "clang-format", "C/C++/Objective-C code formatter"))
   table.insert(tools, brew_tool("terraform", "terraform", "Terraform CLI (provides terraform_fmt)"))
   table.insert(tools, brew_tool("tree-sitter-cli", "tree-sitter", "Tree-sitter CLI for building parsers from grammars"))
+  table.insert(tools, brew_tool("xcbeautify", "xcbeautify", "Xcode build log formatter for readable output"))
 
   return tools
 end

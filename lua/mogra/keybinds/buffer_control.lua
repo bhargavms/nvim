@@ -1,7 +1,7 @@
 local map = vim.g.set_custom_binds
 
 map("n", "<leader>b", "<cmd>enew<CR>", { desc = "buffer new" })
-map("n", "<leader>be", "<cmd>Telescope buffers<CR>", { desc = "Telescope show open buffers" })
+map("n", "<leader>be", "<cmd>FzfLua buffers<CR>", { desc = "Show open buffers (fzf)" })
 map("n", "<C-]>", "<cmd>bn<CR>", { desc = "Go to next buffer" })
 map("n", "<C-[>", "<cmd>bp<CR>", { desc = "Go to previous buffer" })
 

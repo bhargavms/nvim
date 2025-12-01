@@ -33,6 +33,40 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if client and client.supports_method "textDocument/semanticTokens" then
       client.server_capabilities.semanticTokensProvider = nil
     end
+
+    -- Xcodebuild keybinds (only for sourcekit / Xcode projects)
+    if client and client.name == "sourcekit" then
+      local function xopts(desc)
+        return { buffer = bufnr, desc = "Xcode " .. desc }
+      end
+
+      map("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", xopts "Show Xcodebuild Actions")
+      map("n", "<leader>xf", "<cmd>XcodebuildProjectManager<cr>", xopts "Show Project Manager Actions")
+
+      map("n", "<leader>xb", "<cmd>XcodebuildBuild<cr>", xopts "Build Project")
+      map("n", "<leader>xB", "<cmd>XcodebuildBuildForTesting<cr>", xopts "Build For Testing")
+      map("n", "<leader>xr", "<cmd>XcodebuildBuildRun<cr>", xopts "Build & Run Project")
+
+      map("n", "<leader>xt", "<cmd>XcodebuildTest<cr>", xopts "Run Tests")
+      map("v", "<leader>xt", "<cmd>XcodebuildTestSelected<cr>", xopts "Run Selected Tests")
+      map("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", xopts "Run Current Test Class")
+      map("n", "<leader>x.", "<cmd>XcodebuildTestRepeat<cr>", xopts "Repeat Last Test Run")
+
+      map("n", "<leader>xl", "<cmd>XcodebuildToggleLogs<cr>", xopts "Toggle Xcodebuild Logs")
+      map("n", "<leader>xc", "<cmd>XcodebuildToggleCodeCoverage<cr>", xopts "Toggle Code Coverage")
+      map("n", "<leader>xC", "<cmd>XcodebuildShowCodeCoverageReport<cr>", xopts "Show Code Coverage Report")
+      map("n", "<leader>xe", "<cmd>XcodebuildTestExplorerToggle<cr>", xopts "Toggle Test Explorer")
+      map("n", "<leader>xs", "<cmd>XcodebuildFailingSnapshots<cr>", xopts "Show Failing Snapshots")
+
+      map("n", "<leader>xp", "<cmd>XcodebuildPreviewGenerateAndShow<cr>", xopts "Generate Preview")
+      map("n", "<leader>x<cr>", "<cmd>XcodebuildPreviewToggle<cr>", xopts "Toggle Preview")
+
+      map("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", xopts "Select Device")
+      map("n", "<leader>xq", "<cmd>Telescope quickfix<cr>", xopts "Show QuickFix List")
+
+      map("n", "<leader>xx", "<cmd>XcodebuildQuickfixLine<cr>", xopts "Quickfix Line")
+      map("n", "<leader>xa", "<cmd>XcodebuildCodeActions<cr>", xopts "Show Code Actions")
+    end
   end,
 })
 
