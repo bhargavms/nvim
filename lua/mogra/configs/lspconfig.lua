@@ -97,11 +97,6 @@ M.defaults = function(_, _)
 
   vim.lsp.config("jdtls", {})
 
-  vim.lsp.config("kotlin_language_server", {
-    cmd = { "kotlin-ls", "--stdio" },
-    root_markers = { "build.gradle", "build.gradle.kts", "pom.xml" },
-  })
-
   vim.lsp.config("graphql", {
     filetypes = {
       "graphql",
@@ -112,6 +107,13 @@ M.defaults = function(_, _)
 
   vim.lsp.config("yamlls", {})
 
+  -- Swift / sourcekit-lsp
+  vim.lsp.config("sourcekit", {
+    cmd = { vim.trim(vim.fn.system("xcrun -f sourcekit-lsp")) },
+    filetypes = { "swift", "objc", "objcpp", "c", "cpp" },
+    root_markers = { "Package.swift", "*.xcworkspace", ".git" },
+  })
+
   -- Enable all configured servers
   vim.lsp.enable({
     "lua_ls",
@@ -121,6 +123,7 @@ M.defaults = function(_, _)
     "kotlin_language_server",
     "graphql",
     "yamlls",
+    "sourcekit",
   })
 end
 

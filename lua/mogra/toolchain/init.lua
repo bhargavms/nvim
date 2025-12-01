@@ -71,13 +71,34 @@ function M.get()
   register_tool(tools, "mogra.toolchain.tools.go.gotests")
   register_tool(tools, "mogra.toolchain.tools.go.gomodifytags")
 
-  -- Homebrew-based tools (using plugin's builder)
-  local ok, brew_tool = pcall(require, "mogra_toolchain.plugins.homebrew")
-  if ok then
-    table.insert(tools, brew_tool.tool("cmake"):description("cmake tool for building c++ code"):build())
-    table.insert(tools, brew_tool.tool("clang-format"):description("C/C++/Objective-C code formatter"):build())
-    table.insert(tools, brew_tool.tool("terraform"):description("Terraform CLI (provides terraform_fmt)"):build())
+  -- Homebrew-based tools (defined inline to avoid load-order issues with the plugin)
+  local function brew_tool(name, cmd, description, package_name)
+    package_name = package_name or name
+    return {
+      name = name,
+      description = description,
+      is_installed = function()
+        return vim.fn.executable(cmd) == 1
+      end,
+      get_install_cmd = function()
+        if vim.fn.executable("brew") ~= 1 then
+          return nil, "Homebrew is not installed"
+        end
+        return "brew install " .. package_name
+      end,
+      get_update_cmd = function()
+        if vim.fn.executable("brew") ~= 1 then
+          return nil, "Homebrew is not installed"
+        end
+        return "brew upgrade " .. package_name
+      end,
+    }
   end
+
+  table.insert(tools, brew_tool("cmake", "cmake", "cmake tool for building c++ code"))
+  table.insert(tools, brew_tool("clang-format", "clang-format", "C/C++/Objective-C code formatter"))
+  table.insert(tools, brew_tool("terraform", "terraform", "Terraform CLI (provides terraform_fmt)"))
+  table.insert(tools, brew_tool("tree-sitter-cli", "tree-sitter", "Tree-sitter CLI for building parsers from grammars"))
 
   return tools
 end

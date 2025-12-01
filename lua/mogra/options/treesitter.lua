@@ -12,6 +12,10 @@ local options = {
     "java",
     "go",
     "yaml",
+    "swift",
+    "c",
+    "cpp",
+    "objc",
   },
 
   highlight = {
