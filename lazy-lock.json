@@ -9,9 +9,9 @@
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
   "fidget.nvim": { "branch": "main", "commit": "e32b672d8fd343f9d6a76944fedb8c61d7d8111a" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
-  "fzf-lua": { "branch": "main", "commit": "10e760e86c04048c710e5f5fde629fc0dde0a2b0" },
+  "fzf-lua": { "branch": "main", "commit": "cae96b04f6cad98a3ad24349731df5e56b384c3c" },
   "gitsigns.nvim": { "branch": "main", "commit": "5813e4878748805f1518cee7abb50fd7205a3a48" },
-  "go.nvim": { "branch": "master", "commit": "81bb94c1d21648245eb14c69461f5c7f8c705752" },
+  "go.nvim": { "branch": "master", "commit": "41a18f0c05534c375bafec7ed05cdb409c4abcc6" },
   "gruvbox-material": { "branch": "master", "commit": "4bfc6983abc249c5943a60d8eb3980a3c2ababe1" },
   "guihua.lua": { "branch": "master", "commit": "ef44ba40f12e56c1c9fa45967f2b4d142e4b97a0" },
   "indent-blankline.nvim": { "branch": "master", "commit": "005b56001b2cb30bfa61b7986bc50657816ba4ba" },
@@ -35,5 +35,6 @@
   "telescope.nvim": { "branch": "master", "commit": "e69b434b968a33815e2f02a5c7bd7b8dd4c7d4b2" },
   "treesj": { "branch": "main", "commit": "4770492244ccecdc9b01e0e81fa8f2f6b4a23841" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },
+  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
   "xcodebuild.nvim": { "branch": "main", "commit": "54e826a31e5b882d132e2576d477893b3d7edd8a" }
 }

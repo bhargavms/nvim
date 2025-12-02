@@ -66,6 +66,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
       map("n", "<leader>xx", "<cmd>XcodebuildQuickfixLine<cr>", xopts "Quickfix Line")
       map("n", "<leader>xa", "<cmd>XcodebuildCodeActions<cr>", xopts "Show Code Actions")
+      map("n", "<leader>xA", "<cmd>XcodebuildAssetsManager<cr>", xopts "Show Assets Manager")
+      map("n", "<leader>XX", "<cmd>XcodebuildSetup<cr>", xopts "Run Setup Wizard")
     end
   end,
 })
