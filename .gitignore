@@ -3,6 +3,7 @@ vendor/plenary.nvim
 luac.out
 .DS_Store
 .DS_Store?
+.nvimlog
 
 # luarocks build files
 *.src.rock

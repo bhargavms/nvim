@@ -1,4 +1,5 @@
 local options = {
+
   ensure_installed = {
     "lua",
     "luadoc",

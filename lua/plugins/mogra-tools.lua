@@ -1,7 +1,6 @@
 return {
   {
-    -- "bhargavms/mogra-toolchain.nvim",
-    dir = "~/mogra-toolchain.nvim",
+    "bhargavms/mogra-toolchain.nvim",
     name = "mogra-toolchain",
     dependencies = { "MunifTanjim/nui.nvim" },
     lazy = false,
