@@ -1,6 +1,5 @@
 local M = {}
 local models = require "mogra.toolchain.models"
-local repository = require "mogra.toolchain.repository"
 
 -- Run a shell command and return its output
 function M.run_command(cmd)
@@ -19,34 +18,6 @@ function M.command_exists(cmd)
   return result ~= nil and result ~= ""
 end
 
--- Get latest version from GitHub API
-function M.get_latest_github_version(repo)
-  return repository.get_latest_version(repo)
-end
-
--- Get latest version and download URL from GitHub API
-function M.get_latest_github_release(repo)
-  local release_data = repository.get_latest_release(repo)
-  if not release_data then
-    error("release_data is nil")
-  end
-
-  -- Parse the release data into our model
-  local release = models.parse_github_release(release_data)
-
-  -- Get system architecture
-  local arch, os_name = M.detect_system()
-  local system = models.new_system_architecture(arch, os_name)
-
-  -- Find matching asset
-  local asset = models.find_matching_asset(release, system)
-  local download_url = asset and asset.browser_download_url or nil
-
-  -- Extract version from tag_name
-  local version = release.tag_name and release.tag_name:gsub("^v", "") or nil
-
-  return version, download_url
-end
 
 -- Detect system architecture and OS
 function M.detect_system()

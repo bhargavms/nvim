@@ -24,9 +24,6 @@ function M.get()
   -- Register LuaRocks tool
   register_tool(tools, "mogra.toolchain.luarocks")
 
-  -- Register Ripgrep tool
-  register_tool(tools, "mogra.toolchain.ripgrep")
-
   -- Register Java tool
   register_tool(tools, "mogra.toolchain.java")
 
@@ -97,6 +94,7 @@ function M.get()
 
   table.insert(tools, brew_tool("cmake", "cmake", "cmake tool for building c++ code"))
   table.insert(tools, brew_tool("clang-format", "clang-format", "C/C++/Objective-C code formatter"))
+  table.insert(tools, brew_tool("ripgrep", "rg", "Ripgrep (rg) - fast line-oriented search tool"))
   -- Terraform: prefer HashiCorp tap to get the official formula/cask.
   table.insert(tools, {
     name = "terraform",
