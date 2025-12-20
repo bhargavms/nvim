@@ -97,7 +97,26 @@ function M.get()
 
   table.insert(tools, brew_tool("cmake", "cmake", "cmake tool for building c++ code"))
   table.insert(tools, brew_tool("clang-format", "clang-format", "C/C++/Objective-C code formatter"))
-  table.insert(tools, brew_tool("terraform", "terraform", "Terraform CLI (provides terraform_fmt)"))
+  -- Terraform: prefer HashiCorp tap to get the official formula/cask.
+  table.insert(tools, {
+    name = "terraform",
+    description = "Terraform CLI (provides terraform fmt)",
+    is_installed = function()
+      return vim.fn.executable("terraform") == 1
+    end,
+    get_install_cmd = function()
+      if vim.fn.executable("brew") ~= 1 then
+        return nil, "Homebrew is not installed"
+      end
+      return "brew tap hashicorp/tap && brew install hashicorp/tap/terraform"
+    end,
+    get_update_cmd = function()
+      if vim.fn.executable("brew") ~= 1 then
+        return nil, "Homebrew is not installed"
+      end
+      return "brew tap hashicorp/tap && brew upgrade hashicorp/tap/terraform"
+    end,
+  })
   table.insert(tools, brew_tool("tree-sitter-cli", "tree-sitter", "Tree-sitter CLI for building parsers from grammars"))
   table.insert(tools, brew_tool("luacheck", "luacheck", "Lua linter (used for checking Neovim config and Lua projects)"))
   table.insert(tools, brew_tool("xcbeautify", "xcbeautify", "Xcode build log formatter for readable output"))
