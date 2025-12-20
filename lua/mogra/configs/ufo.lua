@@ -47,16 +47,32 @@ local function init(_, _)
     return newVirtText
   end
 
-  -- Check if treesitter parser is available for a filetype
-  local function has_treesitter_parser(filetype)
-    local parsers = require("nvim-treesitter.parsers")
-    local lang = parsers.ft_to_lang(filetype)
-    return parsers.has_parser(lang)
+  -- Check if a treesitter parser is available for a given buffer/filetype.
+  -- Works with Neovim's builtin treesitter + both old/new nvim-treesitter layouts.
+  local function has_treesitter_parser(bufnr, filetype)
+    if not filetype or filetype == "" then
+      return false
+    end
+
+    local lang = filetype
+    if vim.treesitter and vim.treesitter.language and vim.treesitter.language.get_lang then
+      lang = vim.treesitter.language.get_lang(filetype) or lang
+    end
+
+    -- Fast path: nvim-treesitter keeps a parser registry keyed by language.
+    local ok_parsers, parsers = pcall(require, "nvim-treesitter.parsers")
+    if ok_parsers and type(parsers) == "table" and parsers[lang] ~= nil then
+      return true
+    end
+
+    -- Fallback: ask Neovim to create a parser (pcall to avoid throwing).
+    local ok = pcall(vim.treesitter.get_parser, bufnr, lang)
+    return ok
   end
 
   require("ufo").setup({
     -- Provider selector: returns provider names, ufo handles fallback automatically
-    provider_selector = function(_, filetype, buftype)
+    provider_selector = function(bufnr, filetype, buftype)
       -- Skip special buffers
       if buftype == "nofile" or buftype == "terminal" then
         return ""
@@ -69,7 +85,7 @@ local function init(_, _)
       end
 
       -- Build provider chain: LSP → treesitter (if parser exists) → indent
-      if has_treesitter_parser(filetype) then
+      if has_treesitter_parser(bufnr, filetype) then
         return { "lsp", "treesitter" }
       end
 
