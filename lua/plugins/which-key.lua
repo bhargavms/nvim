@@ -25,6 +25,7 @@ return {
         { "<leader>x", group = "Xcode" },
         { "<leader>w", group = "Workspace/Which-key" },
         { "<leader>b", group = "Buffer" },
+        { "<leader>a", group = "AI" },
       })
     end,
   },

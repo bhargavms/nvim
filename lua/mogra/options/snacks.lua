@@ -38,6 +38,9 @@ return {
   -- Status column
   statuscolumn = { enabled = true },
 
+  -- Terminal
+  terminal = { enabled = true },
+
   -- Word highlighting and navigation
   words = { enabled = true },
 

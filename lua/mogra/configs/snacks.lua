@@ -30,6 +30,21 @@ local function init(_, opts)
     Snacks.terminal()
   end, { desc = "Toggle terminal" })
 
+  -- Claude Code
+  vim.keymap.set("n", "<leader>ac", function()
+    Snacks.terminal("claude", {
+      cwd = vim.fn.getcwd(),
+      win = {
+        position = "float",
+        border = "rounded",
+        width = 0.8,
+        height = 0.8,
+        title = " Claude Code ",
+        title_pos = "center",
+      },
+    })
+  end, { desc = "Claude Code" })
+
   -- Words (reference jumping)
   vim.keymap.set("n", "]]", function()
     Snacks.words.jump(vim.v.count1)
