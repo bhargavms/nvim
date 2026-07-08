@@ -4,40 +4,20 @@ local M = {}
 function M.setup(opts)
   opts = opts or {}
 
-  local ts = require "nvim-treesitter"
-
-  -- nvim-treesitter (main rewrite): small config surface (install_dir, etc.)
-  ts.setup({
-    install_dir = opts.install_dir or (vim.fn.stdpath "data" .. "/site"),
-  })
-
-  -- Ensure parsers are installed (async).
-  if opts.ensure_installed and #opts.ensure_installed > 0 then
-    ts.install(opts.ensure_installed)
+  if opts.install_dir and not opts.parser_install_dir then
+    opts.parser_install_dir = opts.install_dir
+    opts.install_dir = nil
   end
 
-  -- Treesitter highlighting via Neovim's built-in API.
-  if opts.highlight and opts.highlight.enable then
-    local group = vim.api.nvim_create_augroup("MograTreesitterHighlight", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
-      group = group,
-      callback = function(args)
-        -- Do not hard-fail if no parser exists for this buffer.
-        pcall(vim.treesitter.start, args.buf)
-      end,
-    })
+  local ok_install, install = pcall(require, "nvim-treesitter.install")
+  if ok_install and vim.fn.executable "tree-sitter" == 1 then
+    local major, minor = vim.fn.system({ "tree-sitter", "--version" }):match "(%d+)%.(%d+)%.%d+"
+    if major and minor and (tonumber(major) > 0 or tonumber(minor) >= 26) then
+      install.ts_generate_args = { "generate", "--abi", tostring(vim.treesitter.language_version) }
+    end
   end
 
-  -- Treesitter-based indentation (experimental).
-  if opts.indent and opts.indent.enable then
-    local group = vim.api.nvim_create_augroup("MograTreesitterIndent", { clear = true })
-    vim.api.nvim_create_autocmd("FileType", {
-      group = group,
-      callback = function(args)
-        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-      end,
-    })
-  end
+  require("nvim-treesitter.configs").setup(opts)
 end
 
 return M

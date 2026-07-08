@@ -18,9 +18,9 @@ return {
       tar zxf luarocks-%s.tar.gz && \
       cd luarocks-%s && ./configure --prefix=%s --with-lua=%s --with-lua-include=%s/include --with-lua-lib=%s/lib && \
       make && make install && \
-      rm -rf %s && \
-      luarocks install luacheck && \
-      luarocks install busted
+      %s/bin/luarocks install --local luacheck && \
+      %s/bin/luarocks install --local busted && \
+      rm -rf %s
     ]],
       temp_dir,
       temp_dir, lua_version,
@@ -29,7 +29,7 @@ return {
       temp_dir, luarocks_version,
       luarocks_version,
       luarocks_version, install_dir, install_dir, install_dir, install_dir,
-      temp_dir
+      install_dir, install_dir, temp_dir
     )
   end,
   update_cmd = "luarocks install --force luacheck && luarocks install --force busted",

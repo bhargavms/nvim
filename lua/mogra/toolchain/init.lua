@@ -33,9 +33,6 @@ function M.get()
   -- Register Kotlin LSP tool
   register_tool(tools, "mogra.toolchain.kotlin-lsp")
 
-  -- Test tools
-  register_tool(tools, "mogra.toolchain.tools.dummy-fail")
-
   -- pip-based tools
   register_tool(tools, "mogra.toolchain.tools.beautysh")
   register_tool(tools, "mogra.toolchain.tools.yamlfix")
