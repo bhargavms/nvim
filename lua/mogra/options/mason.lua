@@ -1,6 +1,26 @@
 local options = {
   PATH = "skip",
 
+  lsp_servers = {
+    "lua_ls",
+    "terraformls",
+    "sqlls",
+    "jdtls",
+    "kotlin_language_server",
+    "graphql",
+    "yamlls",
+    "ts_ls",
+    "angularls@19.2.4",
+    "html",
+    "cssls",
+    "jsonls",
+    "eslint",
+  },
+
+  tools = {
+    "js-debug-adapter",
+  },
+
   ui = {
     icons = {
       package_pending = " ",

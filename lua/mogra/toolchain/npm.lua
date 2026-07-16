@@ -1,20 +1,25 @@
 local helpers = require("mogra.toolchain.helpers")
+local project_root = require("mogra.projects.finn_web").root
+
+local function has_node(version)
+  if not helpers.command_exists "mise" then
+    return false
+  end
+  return vim.system({ "mise", "where", "node@" .. version }, { text = true }):wait().code == 0
+end
+
+local function install_command()
+  local config = vim.fn.shellescape(vim.fs.joinpath(project_root, ".mise.toml"))
+  local root = vim.fn.shellescape(project_root)
+  return ("mise trust %s --yes && mise install -C %s && mise install node@20"):format(config, root)
+end
 
 return {
   name = "NPM",
-  description = "Node.js and npm via nvm",
-  get_install_cmd = function()
-    return [[
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash && \
-      export NVM_DIR="$HOME/.nvm" && \
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-      nvm install --lts && \
-      nvm use --lts && \
-      npm install -g npm@latest
-    ]]
-  end,
-  update_cmd = "npm install -g npm@latest",
+  description = "FINN Node.js 22/20 runtimes and npm through mise",
+  get_install_cmd = install_command,
+  get_update_cmd = install_command,
   is_installed = function()
-    return helpers.command_exists("npm") or vim.fn.filereadable(os.getenv("HOME") .. "/.nvm/nvm.sh") == 1
+    return has_node "22" and has_node "20"
   end,
 }

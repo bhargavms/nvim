@@ -101,6 +101,7 @@ M.capabilities.textDocument.foldingRange = {
 
 M.defaults = function(_, _)
   require "mogra.ui.lsp"
+  local web = require "mogra.tooling.web"
 
   -- Configure default settings for all LSP servers
   vim.lsp.config("*", {
@@ -141,7 +142,122 @@ M.defaults = function(_, _)
     },
   })
 
-  vim.lsp.config("yamlls", {})
+  local has_schemastore, schemastore = pcall(require, "schemastore")
+
+  local function node_lsp(executable, args)
+    return function(dispatchers, config)
+      local path = config.root_dir or vim.fn.getcwd()
+      local resolved = vim.fn.exepath(executable)
+      local command = web.node_command(path, resolved ~= "" and resolved or executable, args)
+      return vim.lsp.rpc.start(command, dispatchers)
+    end
+  end
+
+  vim.lsp.config("yamlls", {
+    settings = {
+      yaml = {
+        schemas = has_schemastore and schemastore.yaml.schemas() or {},
+      },
+    },
+  })
+
+  vim.lsp.config("ts_ls", {
+    cmd = node_lsp("typescript-language-server", { "--stdio" }),
+  })
+  vim.lsp.config("angularls", {
+    root_dir = function(bufnr, on_dir)
+      local root = web.angular_root(vim.api.nvim_buf_get_name(bufnr))
+      if root then
+        on_dir(root)
+      end
+    end,
+    cmd = function(dispatchers, config)
+      local root = config.root_dir or vim.fn.getcwd()
+      local node_modules = vim.fs.joinpath(root, "node_modules")
+      local package = web.workspace(vim.fs.joinpath(root, "package.json")).package
+      local dependencies = vim.tbl_extend("force", package.dependencies or {}, package.devDependencies or {})
+      local angular_version = (dependencies["@angular/core"] or ""):match "%d+%.%d+%.%d+" or ""
+
+      local ngserver = vim.fs.joinpath(vim.fn.stdpath "data", "mason", "bin", "ngserver")
+      -- Angular Language Server 19 supports Node 18/20, so it intentionally
+      -- runs on Node 20 while the application and its other tools use Node 22.
+      local cmd = {
+        vim.fn.exepath "mise",
+        "exec",
+        "node@20",
+        "--",
+        ngserver,
+        "--stdio",
+        "--tsProbeLocations",
+        node_modules,
+        "--ngProbeLocations",
+        node_modules,
+        "--angularCoreVersion",
+        angular_version,
+      }
+      return vim.lsp.rpc.start(cmd, dispatchers)
+    end,
+  })
+  vim.lsp.config("html", {
+    cmd = node_lsp("vscode-html-language-server", { "--stdio" }),
+  })
+  vim.lsp.config("cssls", {
+    cmd = node_lsp("vscode-css-language-server", { "--stdio" }),
+  })
+  vim.lsp.config("jsonls", {
+    cmd = node_lsp("vscode-json-language-server", { "--stdio" }),
+    settings = {
+      json = {
+        schemas = has_schemastore and schemastore.json.schemas() or {},
+        validate = { enable = true },
+      },
+    },
+  })
+
+  local function linter_root(linter)
+    return function(bufnr, on_dir)
+      local path = vim.api.nvim_buf_get_name(bufnr)
+      local workspace = web.workspace(path)
+      if workspace.linter == linter then
+        on_dir(workspace.root)
+      end
+    end
+  end
+
+  vim.lsp.config("oxlint", {
+    cmd = function(dispatchers, config)
+      local root = config.root_dir or vim.fn.getcwd()
+      local executable = vim.fs.joinpath(root, "node_modules", ".bin", "oxlint")
+      if vim.fn.executable(executable) ~= 1 then
+        executable = "oxlint"
+      end
+      return vim.lsp.rpc.start(web.node_command(root, executable, { "--lsp" }), dispatchers)
+    end,
+    root_dir = linter_root "oxlint",
+  })
+
+  local eslint_before_init = vim.lsp.config.eslint.before_init
+  vim.lsp.config("eslint", {
+    cmd = node_lsp("vscode-eslint-language-server", { "--stdio" }),
+    root_dir = linter_root "eslint",
+    before_init = function(params, config)
+      if eslint_before_init then
+        eslint_before_init(params, config)
+      end
+
+      local rule_path = config.root_dir and vim.fs.joinpath(config.root_dir, "lint-rules") or nil
+      if rule_path and vim.fn.isdirectory(rule_path) == 1 then
+        config.settings = config.settings or {}
+        config.settings.options = vim.tbl_deep_extend("force", config.settings.options or {}, {
+          rulePaths = { rule_path },
+        })
+      end
+    end,
+    settings = {
+      format = false,
+      workingDirectory = { mode = "auto" },
+    },
+  })
 
   -- Swift / sourcekit-lsp
   vim.lsp.config("sourcekit", {
@@ -159,6 +275,13 @@ M.defaults = function(_, _)
     "kotlin_language_server",
     "graphql",
     "yamlls",
+    "ts_ls",
+    "angularls",
+    "html",
+    "cssls",
+    "jsonls",
+    "oxlint",
+    "eslint",
     "sourcekit",
   })
 end

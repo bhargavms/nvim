@@ -17,6 +17,17 @@ local options = {
     "c",
     "cpp",
     "objc",
+    "angular",
+    "css",
+    "html",
+    "javascript",
+    "jsdoc",
+    "json",
+    "json5",
+    "regex",
+    "scss",
+    "tsx",
+    "typescript",
   },
 
   highlight = {

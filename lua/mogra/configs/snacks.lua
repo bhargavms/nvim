@@ -45,6 +45,8 @@ local function init(_, opts)
     })
   end, { desc = "Claude Code" })
 
+  require("mogra.projects.finn_web").setup()
+
   -- Words (reference jumping)
   vim.keymap.set("n", "]]", function()
     Snacks.words.jump(vim.v.count1)

@@ -18,6 +18,11 @@ add_to_path(luarocks_bin)
 local local_bin = os.getenv("HOME") .. "/.local/bin"
 add_to_path(local_bin)
 
+-- Let mise select runtimes from the nearest project configuration, including
+-- Neovim instances launched outside an interactive shell.
+local mise_shims = os.getenv("HOME") .. "/.local/share/mise/shims"
+add_to_path(mise_shims)
+
 -- Add Go toolchain and GOPATH bin directories
 local go_root_bin = os.getenv("HOME") .. "/.local/go/go/bin"
 add_to_path(go_root_bin)

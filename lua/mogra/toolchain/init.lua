@@ -15,6 +15,9 @@ end
 function M.get()
   local tools = {}
 
+  -- Register mise before language runtimes so project-local versions win.
+  register_tool(tools, "mogra.toolchain.mise")
+
   -- Register Go tool (the language itself)
   register_tool(tools, "mogra.toolchain.go")
 

@@ -47,9 +47,9 @@ local function init(_, _)
     return newVirtText
   end
 
-  -- Check if a treesitter parser is available for a given buffer/filetype.
+  -- Check if treesitter can actually provide folds for a given buffer/filetype.
   -- Works with Neovim's builtin treesitter + both old/new nvim-treesitter layouts.
-  local function has_treesitter_parser(bufnr, filetype)
+  local function has_treesitter_folds(_bufnr, filetype)
     if not filetype or filetype == "" then
       return false
     end
@@ -59,15 +59,19 @@ local function init(_, _)
       lang = vim.treesitter.language.get_lang(filetype) or lang
     end
 
-    -- Fast path: nvim-treesitter keeps a parser registry keyed by language.
-    local ok_parsers, parsers = pcall(require, "nvim-treesitter.parsers")
-    if ok_parsers and type(parsers) == "table" and parsers[lang] ~= nil then
-      return true
+    local ok_parser, parser_loaded = pcall(vim.treesitter.language.add, lang)
+    if not ok_parser or not parser_loaded then
+      return false
     end
 
-    -- Fallback: ask Neovim to create a parser (pcall to avoid throwing).
-    local ok = pcall(vim.treesitter.get_parser, bufnr, lang)
-    return ok
+    -- A parser alone is not enough: ufo raises UfoFallbackException when the
+    -- language has no folds query. Since treesitter is already our fallback,
+    -- that rejection would otherwise escape as an unhandled promise.
+    local ok_queries, query_files = pcall(vim.treesitter.query.get_files, lang, "folds")
+    if not ok_queries or #query_files == 0 then
+      return false
+    end
+    return true
   end
 
   require("ufo").setup({
@@ -84,8 +88,8 @@ local function init(_, _)
         return { "indent" }
       end
 
-      -- Build provider chain: LSP → treesitter (if parser exists) → indent
-      if has_treesitter_parser(bufnr, filetype) then
+      -- Use treesitter only when both its parser and folds query are available.
+      if has_treesitter_folds(bufnr, filetype) then
         return { "lsp", "treesitter" }
       end
 

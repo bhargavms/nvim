@@ -26,6 +26,9 @@ return {
         { "<leader>w", group = "Workspace/Which-key" },
         { "<leader>b", group = "Buffer" },
         { "<leader>a", group = "AI" },
+        { "<leader>p", group = "Project" },
+        { "<leader>d", group = "Debug/Diagnostics" },
+        { "<leader>t", group = "Test/Trouble" },
       })
     end,
   },
