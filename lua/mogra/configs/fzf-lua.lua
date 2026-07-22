@@ -4,6 +4,11 @@ local function init(_, opts)
   local fzf = require("fzf-lua")
   local map = vim.keymap.set
 
+  local function grep_cwd()
+    local filename = vim.api.nvim_buf_get_name(0)
+    return filename ~= "" and vim.fs.root(filename, ".git") or vim.uv.cwd()
+  end
+
   -- ╭──────────────────────────────────────────────────────────╮
   -- │ fzf-lua: File/Grep operations (faster than Telescope)   │
   -- ╰──────────────────────────────────────────────────────────╯
@@ -17,7 +22,9 @@ local function init(_, opts)
   end, { desc = "Find all files (fzf)" })
 
   -- Grep
-  map("n", "<leader>fw", fzf.live_grep, { desc = "Live grep (fzf)" })
+  map("n", "<leader>fw", function()
+    fzf.live_grep({ cwd = grep_cwd() })
+  end, { desc = "Live grep (fzf)" })
   map("n", "<leader>fW", fzf.grep_cword, { desc = "Grep word under cursor (fzf)" })
   map("v", "<leader>fw", fzf.grep_visual, { desc = "Grep selection (fzf)" })
   map("n", "<leader>fz", fzf.grep_curbuf, { desc = "Grep current buffer (fzf)" })

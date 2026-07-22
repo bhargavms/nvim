@@ -21,6 +21,6 @@ return {
     fd_opts = "--type f --hidden --follow --exclude .git",
   },
   grep = {
-    rg_opts = "--column --line-number --no-heading --color=always --smart-case",
+    query_delay = 200,
   },
 }
