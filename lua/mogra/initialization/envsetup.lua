@@ -6,10 +6,6 @@ local function add_to_path(path)
   end
 end
 
--- Add Mason's bin directory
-local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
-add_to_path(mason_bin)
-
 -- Add LuaRocks local bin directory
 local luarocks_bin = os.getenv("HOME") .. "/.luarocks/bin"
 add_to_path(luarocks_bin)
@@ -18,10 +14,7 @@ add_to_path(luarocks_bin)
 local local_bin = os.getenv("HOME") .. "/.local/bin"
 add_to_path(local_bin)
 
--- Add Go toolchain and GOPATH bin directories
-local go_root_bin = os.getenv("HOME") .. "/.local/go/go/bin"
-add_to_path(go_root_bin)
-
+-- Add GOPATH bin (go install); Go itself comes from Nix
 local go_path_bin = os.getenv("HOME") .. "/go/bin"
 add_to_path(go_path_bin)
 
