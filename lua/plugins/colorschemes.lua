@@ -1,43 +1,28 @@
--- return {
---   -- {
---   --   "ntk148v/habamax.nvim",
---   --   dependencies = { "rktjmp/lush.nvim" },
---   --   config = function()
---   --     vim.cmd.colorscheme "habamax.nvim"
---   --   end,
---   -- },
---   {
---     "luisiacc/gruvbox-baby",
---     lazy = false,
---     priority = 1000,
---     config = function()
---       vim.cmd.colorscheme "gruvbox-baby"
---     end,
---   },
--- }
---
--- ~/.config/nvim/lua/plugins/colorschemes.lua
-local theme_watcher = require('mogra.os.theme_watcher')
+-- Matches WezTerm: rose-pine-moon (dark) / GruvboxLight (light)
+local theme_watcher = require "mogra.os.theme_watcher"
 
 return {
   {
-    "sainnhe/gruvbox-material",
+    "rose-pine/neovim",
+    name = "rose-pine",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      -- Theme callback function
       local function apply_theme(theme)
         if theme == "light" then
-          vim.g.gruvbox_material_background = 'light'
+          vim.o.background = "light"
+          vim.cmd.colorscheme "gruvbox"
         else
-          vim.g.gruvbox_material_background = 'dark'
+          vim.o.background = "dark"
+          vim.cmd.colorscheme "rose-pine-moon"
         end
-        vim.cmd.colorscheme "gruvbox-material"
-	vim.g.gruvbox_material_enable_italic = 1
-	vim.g.gruvbox_material_disable_italic_comment = 0
       end
 
-      -- Setup theme watcher with our callback
       theme_watcher.setup(apply_theme)
     end,
   },

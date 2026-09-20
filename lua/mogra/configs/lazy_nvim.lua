@@ -1,6 +1,6 @@
 return {
   install = {
-    colorscheme = { "gruvbox-baby" },
+    colorscheme = { "rose-pine-moon" },
   },
   ui = {
     icons = {
